@@ -15,7 +15,7 @@ function MapWrapperLeafLetDrawing(props) {
     const getGeoJSONArray = async (userEmail) => {
       try {
         const response = await fetch(
-          `http://localhost:4500/drawings?userEmail=${encodeURIComponent(
+          `https://gisprojectserver.onrender.com/drawings?userEmail=${encodeURIComponent(
             userEmail
           )}`,
           {
@@ -104,13 +104,16 @@ function MapWrapperLeafLetDrawing(props) {
   const saveGeoJSON = async (geoJsonArray) => {
     console.log("geoJsonArray", geoJsonArray);
     try {
-      const response = await fetch("http://localhost:4500/drawings", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ data: geoJsonArray, userEmail })
-      });
+      const response = await fetch(
+        "https://gisprojectserver.onrender.com/drawings",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ data: geoJsonArray, userEmail })
+        }
+      );
 
       const result = await response.json();
       if (result.status) {
