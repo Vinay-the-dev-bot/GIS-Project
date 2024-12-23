@@ -1,8 +1,6 @@
 import "./App.css";
 import React, { useState, useEffect } from "react";
 import GeoJSON from "ol/format/GeoJSON";
-import MapWrapper from "./components/MapWrapper";
-import MapWrapperLeafLet from "./components/MapWrapperLeafLet";
 import MapWrapperLeafLetDrawing from "./components/MapWrapperLeafLetDrawing";
 import Login from "./Pages/LoginPage/Login";
 import { Provider } from "react-redux";
