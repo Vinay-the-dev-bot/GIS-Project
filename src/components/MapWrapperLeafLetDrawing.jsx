@@ -4,6 +4,7 @@ import "leaflet/dist/leaflet.css";
 import "leaflet-draw/dist/leaflet.draw.css";
 import "leaflet-draw";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 function MapWrapperLeafLetDrawing(props) {
   const [selectedCoord, setSelectedCoord] = useState(null);
@@ -14,6 +15,10 @@ function MapWrapperLeafLetDrawing(props) {
   useEffect(() => {
     const getGeoJSONArray = async (userEmail) => {
       try {
+        const loadingToastId = toast.loading("Logging in...", {
+          position: "bottom-left",
+          className: "toast-message"
+        });
         const response = await fetch(
           `https://gisprojectserver.onrender.com/drawings?userEmail=${encodeURIComponent(
             userEmail
@@ -29,8 +34,16 @@ function MapWrapperLeafLetDrawing(props) {
         const data = await response.json();
         console.log(data);
         if (data && data.data.length > 0) setDrawnFeaturesLocal(data.data);
+        toast.dismiss(loadingToastId);
+        toast.success("Data loaded successfully!", {
+          autoClose: 1000
+        });
       } catch (error) {
         console.error("Error fetching data:", error);
+        toast.dismiss(loadingToastId);
+        toast.error("An error occurred while saving data.", {
+          autoClose: 3000
+        });
       }
     };
 
@@ -103,6 +116,10 @@ function MapWrapperLeafLetDrawing(props) {
 
   const saveGeoJSON = async (geoJsonArray) => {
     console.log("geoJsonArray", geoJsonArray);
+    const loadingToastId = toast.loading("Saving GeoJSON data ...", {
+      position: "bottom-left",
+      className: "toast-message"
+    });
     try {
       const response = await fetch(
         "https://gisprojectserver.onrender.com/drawings",
@@ -116,11 +133,18 @@ function MapWrapperLeafLetDrawing(props) {
       );
 
       const result = await response.json();
+      toast.dismiss(loadingToastId);
       if (result.status) {
+        toast.success("GeoJSON Saved successfully!", {
+          autoClose: 1000
+        });
         console.log("GeoJSON saved successfully:", result.data);
-        alert("Data Saved");
       }
     } catch (error) {
+      toast.dismiss(loadingToastId);
+      toast.error("An error occurred while saving data.", {
+        autoClose: 3000
+      });
       console.error("Error:", error);
     }
   };

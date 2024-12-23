@@ -5,6 +5,7 @@ import MapWrapperLeafLetDrawing from "./components/MapWrapperLeafLetDrawing";
 import Login from "./Pages/LoginPage/Login";
 import { Provider } from "react-redux";
 import store from "./Store/Store";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   const [features, setFeatures] = useState([]);
@@ -33,6 +34,7 @@ function App() {
         <Login />
         <MapWrapperLeafLetDrawing features={features} />
       </div>
+      <ToastContainer />
     </Provider>
   );
 }
